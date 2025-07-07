@@ -23,9 +23,11 @@ class Perfil(models.Model):
         JEFE_MESA = 'JEFE_MESA', 'Jefe de Mesa'
         EJECUTIVO_AYUDA = 'EJECUTIVO_AYUDA', 'Ejecutivo de Mesa de Ayuda'
         EJECUTIVO_AREA = 'EJECUTIVO_AREA', 'Ejecutivo de Área Específica'
-        
+
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')
     area = models.ForeignKey(Area, on_delete=models.PROTECT, related_name='miembros', null=True, blank=True)
+    rol = models.CharField(max_length=20, choices=Roles.choices, default=Roles.EJECUTIVO_AYUDA)
+   
 
     def __str__(self):
         return self.usuario.get_full_name() or self.usuario.username

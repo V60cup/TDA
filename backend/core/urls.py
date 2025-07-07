@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import home_view, registro_view # ¡Asegúrate de que la importación es correcta!
+from .views import home_view, registro_view, TicketListView, TicketDetailView, TicketCreateView
 
 urlpatterns = [
-    # La ruta ('') debe ser una cadena de texto.
-    # home_view debe ser la función que importaste.
+    
     path('', home_view, name='home'),
     path('registro/', registro_view, name='registro'),
+    path('tickets/', TicketListView.as_view(), name='ticket-list'),
+    path('tickets/<int:pk>/', TicketDetailView.as_view(), name='ticket-detail'),
+    path('tickets/crear/', TicketCreateView.as_view(), name='ticket-create'),
 ]

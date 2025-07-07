@@ -3,11 +3,11 @@
 {% block title %}Registrar Nuevo Usuario{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
+<div class="row justify-content-center mt-5">
     <div class="col-md-8">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
-                <h2 class="card-title text-center">Registrar Nuevo Ejecutivo</h2>
+                <h2 class="card-title text-center mb-4">Registrar Nuevo Ejecutivo</h2>
                 <form method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
