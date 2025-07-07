@@ -85,11 +85,11 @@ WSGI_APPLICATION = 'TDA.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME', 'nombre_de_tu_db'),      # <-- Lee la variable DB_NAME
-        'USER': os.environ.get('DB_USER', 'usuario_de_tu_db'),      # <-- Lee la variable DB_USER
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'password_de_tu_db'),# <-- Lee la variable DB_PASSWORD
-        'HOST': os.environ.get('DB_HOST', 'db'),                  # <-- Lee la variable DB_HOST
-        'PORT': os.environ.get('DB_PORT', '3306'),                  # <-- Lee la variable DB_PORT
+        'NAME': os.environ.get('DB_NAME', 'nombre_de_tu_db'),
+        'USER': os.environ.get('DB_USER', 'usuario_de_tu_db'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'password_de_tu_db'),
+        'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
+        'PORT': os.environ.get('DB_PORT', '3306'),
     }
 }
 

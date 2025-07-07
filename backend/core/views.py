@@ -29,10 +29,7 @@ class TicketListView(LoginRequiredMixin, ListView):
         context['filter'] = self.filter
         return context
 
-class TicketDetailView(LoginRequiredMixin, DetailView):
-    model = Ticket
-    template_name = 'core/ticket_detail.html'
-    context_object_name = 'ticket'
+
 
 class TicketCreateView(LoginRequiredMixin, CreateView):
     model = Ticket
