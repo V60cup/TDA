@@ -19,6 +19,11 @@ class Departamento(models.Model):
         return f'{self.nombre} ({self.area.nombre})'
 
 class Perfil(models.Model):
+    class Roles(models.TextChoices):
+        JEFE_MESA = 'JEFE_MESA', 'Jefe de Mesa'
+        EJECUTIVO_AYUDA = 'EJECUTIVO_AYUDA', 'Ejecutivo de Mesa de Ayuda'
+        EJECUTIVO_AREA = 'EJECUTIVO_AREA', 'Ejecutivo de Área Específica'
+        
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')
     area = models.ForeignKey(Area, on_delete=models.PROTECT, related_name='miembros', null=True, blank=True)
 
