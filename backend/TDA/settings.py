@@ -12,10 +12,12 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+sys.path.append(os.path.join(BASE_DIR, '..'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -55,10 +58,12 @@ ROOT_URLCONF = 'TDA.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # <-- SOLUCIÓN: Añade esta ruta para que Django encuentre tu 'base.html'.
+        'DIRS': [os.path.join(BASE_DIR, 'core/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -76,11 +81,11 @@ WSGI_APPLICATION = 'TDA.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),  # Este será 'db', el nombre del servicio en docker-compose
-        'PORT': os.environ.get('DB_PORT'),
+        'NAME': os.environ.get('DB_NAME', 'nombre_de_tu_db'),      # <-- Lee la variable DB_NAME
+        'USER': os.environ.get('DB_USER', 'usuario_de_tu_db'),      # <-- Lee la variable DB_USER
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'password_de_tu_db'),# <-- Lee la variable DB_PASSWORD
+        'HOST': os.environ.get('DB_HOST', 'db'),                  # <-- Lee la variable DB_HOST
+        'PORT': os.environ.get('DB_PORT', '3306'),                  # <-- Lee la variable DB_PORT
     }
 }
 
