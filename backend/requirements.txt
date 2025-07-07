@@ -1,2 +1,5 @@
 django>=4.0 
 pymysql
+django-filter
+django-crispy-forms
+crispy-bootstrap5

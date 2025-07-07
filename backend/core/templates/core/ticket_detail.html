@@ -3,29 +3,41 @@
 {% block title %}Detalle del Ticket #{{ ticket.id }}{% endblock %}
 
 {% block content %}
-<div class="card">
+<div class="card mb-4">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h3>Detalle del Ticket #{{ ticket.id }}</h3>
-        <a href="{% url 'ticket-list' %}" class="btn btn-secondary">Volver a la Lista</a>
+        <div>
+            <a href="{% url 'ticket-update' ticket.pk %}" class="btn btn-warning me-2">Editar Ticket</a>
+            <a href="{% url 'ticket-list' %}" class="btn btn-secondary">Volver a la Lista</a>
+        </div>
     </div>
     <div class="card-body">
         <h4 class="card-title">{{ ticket.titulo }}</h4>
-        <hr>
-        <div class="row">
-            <div class="col-md-6">
-                <p><strong>Cliente:</strong> {{ ticket.cliente_solicitante.nombre }}</p>
-                <p><strong>Creado por:</strong> {{ ticket.trabajador_creador.get_full_name }}</p>
-                <p><strong>Fecha de Creación:</strong> {{ ticket.fecha_creacion|date:"d/m/Y H:i" }}</p>
-            </div>
-            <div class="col-md-6">
-                <p><strong>Estado:</strong> <span class="badge bg-info">{{ ticket.get_estado_display }}</span></p>
-                <p><strong>Criticidad:</strong> <span class="badge bg-warning text-dark">{{ ticket.get_nivel_critico_display }}</span></p>
-                <p><strong>Área Asignada:</strong> {{ ticket.area_asignada.nombre }}</p>
-            </div>
         </div>
-        <hr>
-        <h5>Descripción del Problema</h5>
-        <p>{{ ticket.descripcion_problema }}</p>
+</div>
+
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h4>Historial de Derivaciones</h4>
+    </div>
+    <div class="card-body">
+        {% for derivacion in ticket.derivaciones.all|dictsortreversed:"fecha_derivacion" %}
+            <div class="border-bottom mb-3 pb-3">
+                <p>
+                    Derivado de <strong>{{ derivacion.area_origen.nombre }}</strong> a <strong>{{ derivacion.area_destino.nombre }}</strong>
+                </p>
+                {% if derivacion.motivo_derivacion %}
+                    <p class="mb-1"><strong>Motivo:</strong> {{ derivacion.motivo_derivacion }}</p>
+                {% endif %}
+                <small class="text-muted">
+                    Por: <strong>{{ derivacion.trabajador_origen.get_full_name }}</strong> el {{ derivacion.fecha_derivacion|date:"d/m/Y H:i" }}
+                </small>
+            </div>
+        {% empty %}
+            <p class="text-center text-muted">Este ticket no ha sido derivado.</p>
+        {% endfor %}
     </div>
 </div>
+
 {% endblock %}

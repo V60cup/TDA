@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Perfil, Area, Ticket, Cliente
+from .models import Perfil, Area, Ticket, Cliente, Observacion
 
 class RegistroUsuarioForm(UserCreationForm):
 
@@ -69,4 +69,55 @@ class TicketForm(forms.ModelForm):
             'descripcion_problema': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
             'nivel_critico': forms.Select(attrs={'class': 'form-select'}),
             'tipo_problema': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+class TicketUpdateForm(forms.ModelForm):
+    """
+    Formulario para que un ejecutivo actualice el estado de un ticket.
+    """
+    motivo_derivacion = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        label="Motivo de la Derivación o Cambio",
+        required=False # No siempre es obligatorio
+    )
+
+    class Meta:
+        model = Ticket
+        # Añadimos 'area_asignada' a los campos editables
+        fields = ['estado', 'area_asignada', 'trabajador_asignado']
+        labels = {
+            'estado': 'Cambiar Estado del Ticket',
+            'area_asignada': 'Derivar a una Nueva Área',
+            'trabajador_asignado': 'Asignar a un Nuevo Responsable'
+        }
+        widgets = {
+            'estado': forms.Select(attrs={'class': 'form-select'}),
+            'area_asignada': forms.Select(attrs={'class': 'form-select'}),
+            'trabajador_asignado': forms.Select(attrs={'class': 'form-select'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(TicketUpdateForm, self).__init__(*args, **kwargs)
+        # Opcional: Limitar los trabajadores que se pueden asignar al área seleccionada.
+        # Esto requeriría JavaScript en el frontend, por ahora mostramos todos.
+        self.fields['trabajador_asignado'].queryset = User.objects.filter(is_active=True)
+
+        
+class ObservacionForm(forms.ModelForm):
+    """
+    Formulario para añadir una nueva observación a un ticket.
+    """
+    class Meta:
+        model = Observacion
+        # Solo necesitamos el campo de texto
+        fields = ['observacion_texto']
+        labels = {
+            'observacion_texto': 'Añadir Nueva Observación'
+        }
+        widgets = {
+            'observacion_texto': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Escribe aquí una actualización o la solución aplicada...'
+            })
         }
