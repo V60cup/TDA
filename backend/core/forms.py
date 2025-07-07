@@ -102,7 +102,7 @@ class TicketUpdateForm(forms.ModelForm):
         # Esto requeriría JavaScript en el frontend, por ahora mostramos todos.
         self.fields['trabajador_asignado'].queryset = User.objects.filter(is_active=True)
 
-        
+
 class ObservacionForm(forms.ModelForm):
     """
     Formulario para añadir una nueva observación a un ticket.
@@ -120,4 +120,21 @@ class ObservacionForm(forms.ModelForm):
                 'rows': 4,
                 'placeholder': 'Escribe aquí una actualización o la solución aplicada...'
             })
+        }
+
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'first_name': 'Nombre',
+            'last_name': 'Apellido',
+            'email': 'Correo Electrónico',
         }

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Mi Perfil{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h2 class="mb-0">Perfil de Usuario</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <i class="bi bi-person-circle" style="font-size: 8rem; color: #6c757d;"></i>
+                        <h4 class="mt-2">{{ perfil.usuario.username }}</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <h3>Detalles de la Cuenta</h3>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Nombre de Usuario:</strong> {{ perfil.usuario.username }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Correo Electrónico:</strong> {{ perfil.usuario.email|default:"No especificado" }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Nombre:</strong> {{ perfil.usuario.first_name|default:"No especificado" }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Apellido:</strong> {{ perfil.usuario.last_name|default:"No especificado" }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Rol en el Sistema:</strong> {{ perfil.get_rol_display }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Miembro desde:</strong> {{ perfil.usuario.date_joined|date:"d F, Y" }}
+                            </li>
+                        </ul>
+                        <a href="{% url 'perfil-update' %}" class="btn btn-primary mt-3">
+                             <i class="bi bi-pencil-square"></i> Editar Perfil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
